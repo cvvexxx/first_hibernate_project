@@ -17,12 +17,17 @@ import java.time.LocalDate;
 @Table(name = "users", schema = "public")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String username;
-    private String firstname;
-    private String lastname;
-    @Convert(converter = BirthdayConvertor.class)
-    @Column(name = "birth_date")
-    private Birthday birthdate;
+    @Embedded
+    private PersonalInfo personalInfo;
+
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id")
+    private Company company;
 }

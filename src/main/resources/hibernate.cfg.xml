@@ -12,6 +12,7 @@
     <property name="format_sql">true</property>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <mapping class="cvv.project.entity.User"/>
+    <mapping class="cvv.project.entity.Company"/>
 
 
 <!--dialect.PostgreSQLDialect-->

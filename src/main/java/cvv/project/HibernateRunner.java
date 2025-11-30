@@ -2,9 +2,7 @@ package cvv.project;
 
 
 import cvv.project.convertor.BirthdayConvertor;
-import cvv.project.entity.Birthday;
-import cvv.project.entity.Role;
-import cvv.project.entity.User;
+import cvv.project.entity.*;
 import cvv.project.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,28 +17,31 @@ public class HibernateRunner {
 
     public static void main(String[] args) {
 
-        User user = User.builder()
-                .username("artem100@mail.ru")
-                .firstname("Artem")
-                .lastname("Potapov")
-                .birthdate(new Birthday(LocalDate.of(2007, 6, 23)))
-                .role(Role.USER)
+        Company company = Company.builder().
+                name("Yandex")
                 .build();
-        log.info("User object in transient state: {}", user);
+
+        User user = User.builder()
+                .username("Artem.potapov1233@gmail.com")
+                .personalInfo(PersonalInfo.builder()
+                        .firstname("Artem")
+                        .lastname("Potapov")
+                        .birthdate(new Birthday(LocalDate.of(2007, 6, 23)))
+                        .build())
+                .role(Role.ADMIN)
+                .company(company)
+                .build();
+//        log.info("User object in transient state: {}", user);
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
             try (Session session = sessionFactory.openSession()) {
                 session.beginTransaction();
 
-                user.setFirstname("Nikita");
-                log.warn("User firstname was changed: {}", user.getFirstname());
-//            session.persist(user);
-//            session.merge(user);
-//            session.remove(user);
+//                session.persist(company);
+//                session.persist(user);
 
-                User user1 = session.find(User.class, "artem@mail.ru");
-                User user2 = session.find(User.class, "artem1@mail.ru");
-                User user3 = session.find(User.class, "artem100@mail.ru");
+                var user1 = session.find(User.class, 3);
+                session.remove(user1);
 
                 session.getTransaction().commit();
             }
