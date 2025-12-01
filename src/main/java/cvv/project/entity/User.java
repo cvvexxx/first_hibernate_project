@@ -2,14 +2,13 @@ package cvv.project.entity;
 
 import cvv.project.convertor.BirthdayConvertor;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Data
+@ToString(exclude = {"company", "profile"})
+@EqualsAndHashCode(of = {"username", "profile"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -18,8 +17,9 @@ import java.time.LocalDate;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    @Column(unique = true, nullable = false)
     private String username;
     @Embedded
     private PersonalInfo personalInfo;
@@ -27,7 +27,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
 }
+
+
+

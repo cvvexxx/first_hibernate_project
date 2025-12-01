@@ -18,11 +18,11 @@ public class HibernateRunner {
     public static void main(String[] args) {
 
         Company company = Company.builder().
-                name("Yandex")
+                name("LL")
                 .build();
 
         User user = User.builder()
-                .username("Artem.potapov1233@gmail.com")
+                .username("Artem.potapov12333@gmail.com")
                 .personalInfo(PersonalInfo.builder()
                         .firstname("Artem")
                         .lastname("Potapov")
@@ -38,10 +38,9 @@ public class HibernateRunner {
                 session.beginTransaction();
 
 //                session.persist(company);
-//                session.persist(user);
-
-                var user1 = session.find(User.class, 3);
-                session.remove(user1);
+                var user1 = session.find(User.class, 2);
+                user1.setCompany(company);
+                session.merge(user1);
 
                 session.getTransaction().commit();
             }

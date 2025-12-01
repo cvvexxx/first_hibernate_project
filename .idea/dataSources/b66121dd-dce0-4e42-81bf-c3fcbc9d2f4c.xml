@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>1071</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1083</IntrospectionStateNumber>
       <ServerVersion>18.1</ServerVersion>
       <StartupTime>1764489845</StartupTime>
       <TimeZones>true ACDT
@@ -810,7 +810,7 @@ false Zulu
 14860||10|C|G
 14860||-9223372036854775808|U|G
 14860||10|U|G</Grants>
-      <IntrospectionStateNumber>1071</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1083</IntrospectionStateNumber>
       <ObjectId>5</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4325,8 +4325,8 @@ false Zulu
     <schema id="273" parent="4" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>1071</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2025-11-30.16:33:51</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>1083</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2025-12-01.05:31:16</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>546</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4353,13 +4353,19 @@ false Zulu
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="277" parent="273" name="users">
+    <table id="277" parent="273" name="profile">
+      <ObjectId>17062</ObjectId>
+      <StateNumber>1082</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="278" parent="273" name="users">
       <ObjectId>17048</ObjectId>
       <StateNumber>1070</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <column id="278" parent="276" name="id">
+    <column id="279" parent="276" name="id">
       <DefaultExpression>nextval(&apos;company_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -4368,14 +4374,14 @@ false Zulu
       <SequenceId>17036</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="279" parent="276" name="name">
+    <column id="280" parent="276" name="name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1067</StateNumber>
       <StoredType>varchar(64)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="280" parent="276" name="company_pkey">
+    <index id="281" parent="276" name="company_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17043</ObjectId>
@@ -4384,7 +4390,7 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="281" parent="276" name="company_name_key">
+    <index id="282" parent="276" name="company_name_key">
       <ColNames>name</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17045</ObjectId>
@@ -4395,20 +4401,63 @@ false Zulu
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="282" parent="276" name="company_pkey">
+    <key id="283" parent="276" name="company_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17044</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1067</StateNumber>
       <UnderlyingIndexId>17043</UnderlyingIndexId>
     </key>
-    <key id="283" parent="276" name="company_name_key">
+    <key id="284" parent="276" name="company_name_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17046</ObjectId>
       <StateNumber>1067</StateNumber>
       <UnderlyingIndexId>17045</UnderlyingIndexId>
     </key>
-    <column id="284" parent="277" name="id">
+    <column id="285" parent="277" name="user_id">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1082</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="286" parent="277" name="street">
+      <Position>2</Position>
+      <StateNumber>1082</StateNumber>
+      <StoredType>varchar(128)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="287" parent="277" name="language">
+      <Position>3</Position>
+      <StateNumber>1082</StateNumber>
+      <StoredType>varchar(2)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <foreign-key id="288" parent="277" name="profile_user_id_fkey">
+      <ColNames>user_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17068</ObjectId>
+      <StateNumber>1082</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>17048</RefTableId>
+    </foreign-key>
+    <index id="289" parent="277" name="profile_pkey">
+      <ColNames>user_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17066</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1082</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="290" parent="277" name="profile_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17067</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1082</StateNumber>
+      <UnderlyingIndexId>17066</UnderlyingIndexId>
+    </key>
+    <column id="291" parent="278" name="id">
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -4417,43 +4466,43 @@ false Zulu
       <SequenceId>17047</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="285" parent="277" name="username">
+    <column id="292" parent="278" name="username">
       <Position>2</Position>
       <StateNumber>1070</StateNumber>
       <StoredType>varchar(128)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="286" parent="277" name="firstname">
+    <column id="293" parent="278" name="firstname">
       <Position>3</Position>
       <StateNumber>1070</StateNumber>
       <StoredType>varchar(128)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="287" parent="277" name="lastname">
+    <column id="294" parent="278" name="lastname">
       <Position>4</Position>
       <StateNumber>1070</StateNumber>
       <StoredType>varchar(128)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="288" parent="277" name="birth_date">
+    <column id="295" parent="278" name="birth_date">
       <Position>5</Position>
       <StateNumber>1070</StateNumber>
       <StoredType>date|0s</StoredType>
       <TypeId>1082</TypeId>
     </column>
-    <column id="289" parent="277" name="role">
+    <column id="296" parent="278" name="role">
       <Position>6</Position>
       <StateNumber>1070</StateNumber>
       <StoredType>varchar(32)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="290" parent="277" name="company_id">
+    <column id="297" parent="278" name="company_id">
       <Position>7</Position>
       <StateNumber>1070</StateNumber>
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="291" parent="277" name="users_company_id_fkey">
+    <foreign-key id="298" parent="278" name="users_company_id_fkey">
       <ColNames>company_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17057</ObjectId>
@@ -4461,7 +4510,7 @@ false Zulu
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17037</RefTableId>
     </foreign-key>
-    <index id="292" parent="277" name="users_pkey">
+    <index id="299" parent="278" name="users_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17053</ObjectId>
@@ -4470,7 +4519,7 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="293" parent="277" name="users_username_key">
+    <index id="300" parent="278" name="users_username_key">
       <ColNames>username</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17055</ObjectId>
@@ -4481,14 +4530,14 @@ false Zulu
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="294" parent="277" name="users_pkey">
+    <key id="301" parent="278" name="users_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17054</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1070</StateNumber>
       <UnderlyingIndexId>17053</UnderlyingIndexId>
     </key>
-    <key id="295" parent="277" name="users_username_key">
+    <key id="302" parent="278" name="users_username_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17056</ObjectId>
       <StateNumber>1070</StateNumber>

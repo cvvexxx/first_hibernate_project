@@ -13,6 +13,7 @@
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <mapping class="cvv.project.entity.User"/>
     <mapping class="cvv.project.entity.Company"/>
+    <mapping class="cvv.project.entity.Profile"/>
 
 
 <!--dialect.PostgreSQLDialect-->

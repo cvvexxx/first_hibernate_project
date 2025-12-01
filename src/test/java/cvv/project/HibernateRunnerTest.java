@@ -1,9 +1,11 @@
 package cvv.project;
 
-import cvv.project.entity.Birthday;
-import cvv.project.entity.User;
+import cvv.project.entity.*;
+import cvv.project.util.HibernateUtil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import lombok.Cleanup;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -18,6 +20,64 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HibernateRunnerTest {
+
+    @Test
+    public void checkOneToOne() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            Profile profile = Profile.builder()
+                    .language("RU")
+                    .street("Russia")
+                    .build();
+
+            User user = User.builder()
+                    .username("egor" + System.nanoTime() + "@gmail.com")
+                    .build();
+
+            session.persist(user);
+            profile.setUser(user);
+            session.persist(profile);
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
+    public void testOrphanRemoval() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            Company company = session.find(Company.class, 1L);
+            company.getUsers().removeIf(user -> user.getId().equals(2));
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
+    public void checkOneToMany() {
+        Company company = Company.builder().
+                name("Yandex")
+                .build();
+
+        User user = User.builder()
+                .username("Artem@gmail.com")
+                .build();
+
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            company.addUser(user);
+
+            session.persist(company);
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     public void testHibernateApi() throws SQLException, IllegalAccessException {
