@@ -14,6 +14,8 @@
     <mapping class="cvv.project.entity.User"/>
     <mapping class="cvv.project.entity.Company"/>
     <mapping class="cvv.project.entity.Profile"/>
+    <mapping class="cvv.project.entity.Chat"/>
+    <mapping class="cvv.project.entity.UserChat"/>
 
 
 <!--dialect.PostgreSQLDialect-->

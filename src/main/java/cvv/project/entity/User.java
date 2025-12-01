@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@ToString(exclude = {"company", "profile"})
-@EqualsAndHashCode(of = {"username", "profile"})
+@ToString(exclude = {"company", "profile", "userChats"})
+@EqualsAndHashCode(of = {"username", "profile", "userChats"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -33,6 +35,10 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Profile profile;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<UserChat> userChats = new ArrayList<>();
 }
 
 
