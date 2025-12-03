@@ -16,21 +16,21 @@ public class HibernateRunner {
     private static final Logger log = LoggerFactory.getLogger(HibernateRunner.class);
 
     public static void main(String[] args) {
+//
+//        Company company = Company.builder().
+//                name("LL")
+//                .build();
 
-        Company company = Company.builder().
-                name("LL")
-                .build();
-
-        User user = User.builder()
-                .username("Artem.potapov12333@gmail.com")
-                .personalInfo(PersonalInfo.builder()
-                        .firstname("Artem")
-                        .lastname("Potapov")
-                        .birthdate(new Birthday(LocalDate.of(2007, 6, 23)))
-                        .build())
-                .role(Role.ADMIN)
-                .company(company)
-                .build();
+//        User user = User.builder()
+//                .username("Artem.potapov12333@gmail.com")
+//                .personalInfo(PersonalInfo.builder()
+//                        .firstname("Artem")
+//                        .lastname("Potapov")
+//                        .birthdate(new Birthday(LocalDate.of(2007, 6, 23)))
+//                        .build())
+//                .role(Role.ADMIN)
+//                .company(company)
+//                .build();
 //        log.info("User object in transient state: {}", user);
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
@@ -38,9 +38,9 @@ public class HibernateRunner {
                 session.beginTransaction();
 
 //                session.persist(company);
-                var user1 = session.find(User.class, 2);
-                user1.setCompany(company);
-                session.merge(user1);
+//                var user1 = session.find(User.class, 2);
+//                user1.setCompany(company);
+//                session.merge(user1);
 
                 session.getTransaction().commit();
             }
