@@ -2,71 +2,127 @@ package cvv.project;
 
 import cvv.project.entity.*;
 import cvv.project.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDate;
 
 class HibernateRunnerTest {
+    private static SessionFactory sessionFactory;
+
+    @BeforeAll
+    static void setUp() {
+        sessionFactory = HibernateUtil.buildSessionFactory();
+    }
+
+    @AfterAll
+    static void tearDown() {
+        if (sessionFactory != null) {
+            sessionFactory.close();
+        }
+    }
+
     @Test
-    public void testInheritance() {
-        try (var sessionFactory = HibernateUtil.buildSessionFactory();
-             var session = sessionFactory.openSession()) {
+    public void createUsers() {
+        User user1 = User.builder()
+                .username("john_doe")
+                .personalInfo(new PersonalInfo(
+                        "John",
+                        "Doe",
+                        new Birthday(LocalDate.of(1995, 3, 15))
+                ))
+                .role(Role.ADMIN)
+                .build();
+
+        User user2 = User.builder()
+                .username("jane_smith")
+                .personalInfo(new PersonalInfo(
+                        "Jane",
+                        "Smith",
+                        new Birthday(LocalDate.of(1998, 7, 2))
+                ))
+                .role(Role.USER)
+                .build();
+
+        User user3 = User.builder()
+                .username("alex_ivanov")
+                .personalInfo(new PersonalInfo(
+                        "Alex",
+                        "Ivanov",
+                        new Birthday(LocalDate.of(2000, 1, 20))
+                ))
+                .role(Role.USER)
+                .build();
+
+        User user4 = User.builder()
+                .username("maria_petrov")
+                .personalInfo(new PersonalInfo(
+                        "Maria",
+                        "Petrova",
+                        new Birthday(LocalDate.of(1993, 11, 5))
+                ))
+                .role(Role.ADMIN)
+                .build();
+
+        User user5 = User.builder()
+                .username("sergey_kuznetsov")
+                .personalInfo(new PersonalInfo(
+                        "Sergey",
+                        "Kuznetsov",
+                        new Birthday(LocalDate.of(1999, 9, 9))
+                ))
+                .role(Role.USER)
+                .build();
+
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            var company = Company.builder()
-                    .name("JetBrains")
-                    .build();
-
-            session.persist(company);
-
-            Programmer programmer = Programmer.builder()
-                    .username("Pozdnyakov")
-                    .language(Language.JAVA)
-                    .company(company)
-                    .build();
-
-            session.persist(programmer);
-
-            Manager manager = Manager.builder()
-                    .username("Alisa")
-                    .project("Hibernate")
-                    .company(company)
-                    .build();
-
-            session.persist(manager);
-
-            session.flush();
-            session.clear();
-
-            var programmer1 = session.find(Programmer.class, 1L);
-            var manager1 = session.find(User.class, 1L);
+            session.persist(user1);
+            session.persist(user2);
+            session.persist(user3);
+            session.persist(user4);
+            session.persist(user5);
 
             session.getTransaction().commit();
         }
     }
 
+    @Test
+    public void checkHQL() {
+        try (var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            String name = "John";
+            var users = session.createQuery("""
+                            select u from User u
+                            where u.personalInfo.firstname = :firstname
+                            """)
+                    .setParameter("firstname", name)
+                    .list();
+            System.out.println(users);
+
+            session.getTransaction().commit();
+        }
+    }
+}
 //    @Test
 //    public void checkManyToMany() {
 //        try (var sessionFactory = HibernateUtil.buildSessionFactory();
 //             var session = sessionFactory.openSession()) {
 //            session.beginTransaction();
 //
-//            User user = User.builder()
-//                    .username("admin")
-//                    .build();
-//
-//            Chat chat = Chat.builder()
-//                    .name("chat1")
-//                    .build();
+//            User user = session.find(User.class, 1L);
+//            Chat chat = session.find(Chat.class, 2L);
 //
 //            UserChat userChat = UserChat.builder()
 //                    .createdAt(Instant.now())
 //                    .createdBy("Artem")
 //                    .build();
-//
-//            session.persist(user);
-//            session.persist(chat);
-//
 //
 //            userChat.setUser(user);
 //            userChat.setChat(chat);
@@ -134,5 +190,3 @@ class HibernateRunnerTest {
 //            session.getTransaction().commit();
 //        }
 //    }
-
-}

@@ -16,31 +16,65 @@ public class HibernateRunner {
     private static final Logger log = LoggerFactory.getLogger(HibernateRunner.class);
 
     public static void main(String[] args) {
-//
-//        Company company = Company.builder().
-//                name("LL")
-//                .build();
+        User user1 = User.builder()
+                .username("john_doe")
+                .personalInfo(new PersonalInfo(
+                        "John",
+                        "Doe",
+                        new Birthday(LocalDate.of(1995, 3, 15))
+                ))
+                .role(Role.ADMIN)
+                .build();
 
-//        User user = User.builder()
-//                .username("Artem.potapov12333@gmail.com")
-//                .personalInfo(PersonalInfo.builder()
-//                        .firstname("Artem")
-//                        .lastname("Potapov")
-//                        .birthdate(new Birthday(LocalDate.of(2007, 6, 23)))
-//                        .build())
-//                .role(Role.ADMIN)
-//                .company(company)
-//                .build();
-//        log.info("User object in transient state: {}", user);
+        User user2 = User.builder()
+                .username("jane_smith")
+                .personalInfo(new PersonalInfo(
+                        "Jane",
+                        "Smith",
+                        new Birthday(LocalDate.of(1998, 7, 2))
+                ))
+                .role(Role.USER)
+                .build();
+
+        User user3 = User.builder()
+                .username("alex_ivanov")
+                .personalInfo(new PersonalInfo(
+                        "Alex",
+                        "Ivanov",
+                        new Birthday(LocalDate.of(2000, 1, 20))
+                ))
+                .role(Role.USER)
+                .build();
+
+        User user4 = User.builder()
+                .username("maria_petrov")
+                .personalInfo(new PersonalInfo(
+                        "Maria",
+                        "Petrova",
+                        new Birthday(LocalDate.of(1993, 11, 5))
+                        ))
+                .role(Role.ADMIN)
+                .build();
+
+        User user5 = User.builder()
+                .username("sergey_kuznetsov")
+                .personalInfo(new PersonalInfo(
+                        "Sergey",
+                        "Kuznetsov",
+                        new Birthday(LocalDate.of(1999, 9, 9))
+                        ))
+                .role(Role.USER)
+                .build();
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
             try (Session session = sessionFactory.openSession()) {
                 session.beginTransaction();
 
-//                session.persist(company);
-//                var user1 = session.find(User.class, 2);
-//                user1.setCompany(company);
-//                session.merge(user1);
+                session.persist(user1);
+                session.persist(user2);
+                session.persist(user3);
+                session.persist(user4);
+                session.persist(user5);
 
                 session.getTransaction().commit();
             }
