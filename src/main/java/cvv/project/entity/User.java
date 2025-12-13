@@ -39,6 +39,9 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<UserChat> userChats = new ArrayList<>();
+
+    @OneToOne
+    private Salary salary;
 }
 
 
